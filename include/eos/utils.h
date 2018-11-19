@@ -1,5 +1,5 @@
-#ifndef UTILS_H_
-#define UTILS_H_
+#ifndef EOS_UTILS_H_
+#define EOS_UTILS_H_
 
 
 
@@ -23,10 +23,11 @@
 
 #define toggle_bit(reg,bit) ((reg)^=(1<<(bit)))
 
-#define out_b(addr,data)   ((addr) = (data))
+#define eos_isr(isr_name) void __attribute__ ((interrupt)) isr_name(void)
 
-#define in_b(addr)         (addr)
+#define eos_naked_isr(isr_name) void __attribute__ ((interrupt,naked)) isr_name(void)
 
 
 
-#endif /* UTILS_H_ */
+
+#endif /* EOS_UTILS_H_ */

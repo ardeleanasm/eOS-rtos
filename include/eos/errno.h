@@ -1,5 +1,5 @@
-#ifndef ERRNO_H_
-#define ERRNO_H_
+#ifndef EOS_ERRNO_H_
+#define EOS_ERRNO_H_
 
 
-#endif
+#endif /* EOS_ERRNO_H_ */

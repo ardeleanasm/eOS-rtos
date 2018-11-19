@@ -1,5 +1,5 @@
-#ifndef STDTYPES_H_
-#define STDTYPES_H_
+#ifndef EOS_STDTYPES_H_
+#define EOS_STDTYPES_H_
 
 
-#endif
+#endif /* EOS_STDTYPES_H_ */
