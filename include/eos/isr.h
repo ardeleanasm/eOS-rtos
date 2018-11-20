@@ -5,4 +5,4 @@
 
 #define eos_naked_isr(isr_name) void __attribute__ ((interrupt,naked)) isr_name(void)
 
-#endif
+#endif /* EOS_ISR_H_ */
