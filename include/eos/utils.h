@@ -23,9 +23,7 @@
 
 #define toggle_bit(reg,bit) ((reg)^=(1<<(bit)))
 
-#define eos_isr(isr_name) void __attribute__ ((interrupt)) isr_name(void)
 
-#define eos_naked_isr(isr_name) void __attribute__ ((interrupt,naked)) isr_name(void)
 
 
 
