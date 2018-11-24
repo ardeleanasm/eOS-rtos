@@ -1,0 +1,5 @@
+#ifndef ARCH_ARM_STM_TYPES_H_
+#define ARCH_ARM_STM_TYPES_H_
+
+
+#endif ARCH_ARM_STM_TYPES_H_
