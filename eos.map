@@ -256,19 +256,19 @@ OUTPUT(bin/eos elf32-rl78)
  .debug_frame   0x00000024       0x24 bin/hwinit.o
  .debug_frame   0x00000048      0x7cc bin/inthandler.o
 
-.debug_info     0x00000000      0x442
- .debug_info    0x00000000       0x42 bin/eos.o
- .debug_info    0x00000042       0x37 bin/hwinit.o
- .debug_info    0x00000079      0x2ac bin/inthandler.o
- .debug_info    0x00000325       0x5c bin/start.o
- .debug_info    0x00000381       0xc1 bin/vects.o
+.debug_info     0x00000000      0x46c
+ .debug_info    0x00000000       0x6c bin/eos.o
+ .debug_info    0x0000006c       0x37 bin/hwinit.o
+ .debug_info    0x000000a3      0x2ac bin/inthandler.o
+ .debug_info    0x0000034f       0x5c bin/start.o
+ .debug_info    0x000003ab       0xc1 bin/vects.o
 
-.debug_abbrev   0x00000000       0xf8
- .debug_abbrev  0x00000000       0x39 bin/eos.o
- .debug_abbrev  0x00000039       0x2c bin/hwinit.o
- .debug_abbrev  0x00000065       0x2c bin/inthandler.o
- .debug_abbrev  0x00000091       0x14 bin/start.o
- .debug_abbrev  0x000000a5       0x53 bin/vects.o
+.debug_abbrev   0x00000000      0x103
+ .debug_abbrev  0x00000000       0x44 bin/eos.o
+ .debug_abbrev  0x00000044       0x2c bin/hwinit.o
+ .debug_abbrev  0x00000070       0x2c bin/inthandler.o
+ .debug_abbrev  0x0000009c       0x14 bin/start.o
+ .debug_abbrev  0x000000b0       0x53 bin/vects.o
 
 .debug_aranges  0x00000000      0x1c0
  .debug_aranges
@@ -294,13 +294,14 @@ OUTPUT(bin/eos elf32-rl78)
  .debug_line    0x0000040b      0x152 bin/start.o
  .debug_line    0x0000055d       0x28 bin/vects.o
 
-.debug_str      0x00000000      0x2b6
- .debug_str     0x00000000       0xec bin/eos.o
- .debug_str     0x000000ec       0x42 bin/hwinit.o
+.debug_str      0x00000000      0x2ee
+ .debug_str     0x00000000      0x132 bin/eos.o
+                                0x13e (size before relaxing)
+ .debug_str     0x00000132       0x42 bin/hwinit.o
                                 0x104 (size before relaxing)
- .debug_str     0x0000012e      0x140 bin/inthandler.o
+ .debug_str     0x00000174      0x140 bin/inthandler.o
                                 0x22d (size before relaxing)
- .debug_str     0x0000026e       0x48 bin/vects.o
+ .debug_str     0x000002b4       0x3a bin/vects.o
                                 0x13d (size before relaxing)
 
 .comment        0x00000000       0xa0

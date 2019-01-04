@@ -1,8 +1,7 @@
 #ifndef EOS_IO_H_
 #define EOS_IO_H_
 
-
-/*https://elixir.bootlin.com/linux/v4.19.2/source/arch/arm/include/asm/io.h*/
+#include "arch_io.h"
 
 #define out_b(addr,data)   
 
