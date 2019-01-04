@@ -6,10 +6,9 @@ EXEC=eos
 
 CURR_DIR=$(shell pwd)
 
-ARCH=rl78
-MCU=r5f104le
+export ARCH=rl78
+export MCU=r5f104le
 
-COMPILER_FLAGS=-O0 -ffunction-sections -fdata-sections -g2 -Wstack-usage=40 -mg14 -c
 
 LINKER_FLAGS=-O0 -ffunction-sections -fdata-sections -g2 -Wstack-usage=40 -mg14 -Wl,-M=$(EXEC).map -Wl,--start-group -lgcc -Wl,--end-group -nostartfiles -Wl,-e_PowerON_Reset -T arch/$(ARCH)/$(MCU)/linker_script.ld
 
@@ -27,6 +26,8 @@ OUTPUT_DIR=bin
 
 OBJECTS = $(wildcard bin/*.o)
 
+
+
 all: clean create_dirs compile link
 
 
@@ -36,14 +37,8 @@ create_dirs:
 link:
 	$(CC) $(LINKER_FLAGS) $(OBJECTS) -o $(OUTPUT_DIR)/$(EXEC)
 
-ifeq ($(ARCH),rl78)
-ifeq ($(MCU),r5f104le)
 target: 
-	cd arch/$(ARCH)/$(MCU) && make all
-
-endif
-
-endif
+	cd arch && make all
 
 compile: target
 	cd kernel && make all
