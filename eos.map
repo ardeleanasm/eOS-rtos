@@ -1,0 +1,140 @@
+
+Discarded input sections
+
+ .text          0x00000000        0x0 bin/eos.o
+ .data          0x00000000        0x0 bin/eos.o
+ .bss           0x00000000        0x0 bin/eos.o
+ .text.main     0x00000000        0x4 bin/eos.o
+ .debug_frame   0x00000000       0x24 bin/eos.o
+ .debug_info    0x00000000       0x42 bin/eos.o
+ .debug_abbrev  0x00000000       0x39 bin/eos.o
+ .debug_aranges
+                0x00000000       0x20 bin/eos.o
+ .debug_ranges  0x00000000       0x10 bin/eos.o
+ .debug_line    0x00000000       0x45 bin/eos.o
+ .debug_str     0x00000000       0xec bin/eos.o
+ .comment       0x00000000       0xa1 bin/eos.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+VEC              0x00000000         0x00000004
+IVEC             0x00000004         0x000000bc
+OPT              0x000000c0         0x00000004
+SEC_ID           0x000000c4         0x0000000a
+OCDSTAD          0x000000ce         0x0000000a
+OCDROM           0x0000fe00         0x00000200
+ROM              0x000000d8         0x0000fd28
+MIRROR           0x000f2000         0x0000c900
+RAM              0x000fe900         0x00001600
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+START GROUP
+LOAD d:/soft/renesas/gcc for renesas rl78 4.9.2.201801-gnurl78-elf/rl78-elf/rl78-elf/bin/../lib/gcc/rl78-elf/4.9.2.201801-GNURL78/g14\libgcc.a
+END GROUP
+LOAD bin/eos.o
+LOAD d:/soft/renesas/gcc for renesas rl78 4.9.2.201801-gnurl78-elf/rl78-elf/rl78-elf/bin/../lib/gcc/rl78-elf/4.9.2.201801-GNURL78/g14\libgcc.a
+START GROUP
+LOAD d:/soft/renesas/gcc for renesas rl78 4.9.2.201801-gnurl78-elf/rl78-elf/rl78-elf/bin/../lib/gcc/rl78-elf/4.9.2.201801-GNURL78/../../../../rl78-elf/lib/g14\libc.a
+LOAD d:/soft/renesas/gcc for renesas rl78 4.9.2.201801-gnurl78-elf/rl78-elf/rl78-elf/bin/../lib/gcc/rl78-elf/4.9.2.201801-GNURL78/../../../../rl78-elf/lib/g14\libsim.a
+END GROUP
+LOAD d:/soft/renesas/gcc for renesas rl78 4.9.2.201801-gnurl78-elf/rl78-elf/rl78-elf/bin/../lib/gcc/rl78-elf/4.9.2.201801-GNURL78/g14\libgcc.a
+
+.vec
+ *(.vec)
+
+.vects
+ *(.vects)
+
+.option_bytes
+ *(.option_bytes)
+
+.security_id
+ *(.security_id)
+
+.lowtext        0x000000d8        0x0
+ *(.plt)
+ *(.lowtext)
+                0x000000d8                . = ALIGN (0x2)
+
+.tors           0x000000d8        0x0
+                0x000000d8                __CTOR_LIST__ = .
+                0x000000d8                . = ALIGN (0x2)
+                0x000000d8                ___ctors = .
+ *(.ctors)
+                0x000000d8                ___ctors_end = .
+                0x000000d8                __CTOR_END__ = .
+                0x000000d8                __DTOR_LIST__ = .
+                0x000000d8                ___dtors = .
+ *(.dtors)
+                0x000000d8                ___dtors_end = .
+                0x000000d8                __DTOR_END__ = .
+                0x000000d8                . = ALIGN (0x2)
+                0x000000d8                _mdata = .
+
+.text           0x000000d8        0x0
+ *(.text)
+ *(.text.*)
+                0x000000d8                etext = .
+                0x000000d8                . = ALIGN (0x2)
+                0x00000000                PROVIDE (__rl78_abs__, 0x0)
+
+.init
+ *(.init)
+
+.fini
+ *(.fini)
+
+.got
+ *(.got)
+ *(.got.plt)
+
+.rodata         0x00002000        0x0
+                0x00002000                . = ALIGN (0x2)
+ *(.rodata)
+ *(.rodata.*)
+                0x00002000                _erodata = .
+
+.frodata        0x000000d8        0x0
+                0x000000d8                . = ALIGN (0x2)
+ *(.frodata)
+ *(.frodata.*)
+                0x000000d8                _efrodata = .
+
+.eh_frame_hdr
+ *(.eh_frame_hdr)
+
+.eh_frame
+ *(.eh_frame)
+
+.jcr            0x000000d8        0x0
+ *(.jcr)
+                0x000000d8                . = ALIGN (0x2)
+
+.data           0x000fe900        0x0 load address 0x000000d8
+                0x000fe900                . = ALIGN (0x2)
+                0x000fe900                _data = .
+ *(.data)
+ *(.data.*)
+                0x000fe900                . = ALIGN (0x2)
+                0x000fe900                _edata = .
+                0x00000000                PROVIDE (__romdatacopysize, SIZEOF (.data))
+
+.bss            0x000fe900        0x0
+                0x000fe900                . = ALIGN (0x2)
+                0x000fe900                _bss = .
+ *(.bss)
+ *(.bss.**)
+                0x000fe900                . = ALIGN (0x2)
+ *(COMMON)
+                0x000fe900                . = ALIGN (0x2)
+                0x000fe900                _ebss = .
+                0x000fe900                _end = .
+                0x00000064                PROVIDE (stack_size, 0x64)
+
+.stack          0x000ffedc        0x0
+                0x000ffedc                _stack = .
+                0x00000001                ASSERT ((_stack > (_end + stack_size)), Error: Too much data - no room left for the stack)
+OUTPUT(bin/eos elf32-rl78)

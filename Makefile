@@ -1,18 +1,25 @@
-CC_PREFIX=arm-none-eabi-
+CC_PREFIX=rl78-elf-
 
-CC=$(CC_PREFIX)gcc
+CC=$(CC_PREFIX)gcc.exe
 
-
-
-CC_FLAGS=
+EXEC=eos
 
 CURR_DIR=$(shell pwd)
 
+ARCH=rl78
+MCU=r5f104le
+
+COMPILER_FLAGS=-O0 -ffunction-sections -fdata-sections -g2 -Wstack-usage=40 -mg14 -c
+
+LINKER_FLAGS=-O0 -ffunction-sections -fdata-sections -g2 -Wstack-usage=40 -mg14 -Wl,-M=$(EXEC).map -Wl,--start-group -lgcc -Wl,--end-group -nostartfiles -Wl,-e_PowerON_Reset -T arch/$(ARCH)/$(MCU)/linker_script.ld
+
+
+
+
+
+
 INCLUDE_FILES=\
 	$(CURR_DIR)/include
-
-
-FLAGS=
 
 
 
@@ -21,22 +28,35 @@ OUTPUT_DIR=bin
 
 
 OBJECTS=\
-	eos
+	$(OUTPUT_DIR)/eos.o
 
 FILES=\
+	eos.c
+
+all: clean create_dirs compile link
 
 
-
-
-all: clean compile link
-
+create_dirs:
+	mkdir -p $(OUTPUT_DIR)
 
 link:
+	$(CC) $(LINKER_FLAGS) $(OBJECTS) -o $(OUTPUT_DIR)/$(EXEC)
+
+ifeq ($(ARCH),rl78)
+ifeq ($(MCU),r5f104le)
+compile: $(FILES)
+	cd arch/$(ARCH)/$(MCU) && make all
+
+endif
+else
+compile: $(FILES)    
+
+endif
 
 
-compile:
 
-
+eos.c:
+	$(CC) $(COMPILER_FLAGS) -I$(INCLUDE_FILES) kernel/eos.c -o $(OUTPUT_DIR)/eos.o
 
 
 clean:
