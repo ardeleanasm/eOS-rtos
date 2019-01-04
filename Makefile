@@ -25,13 +25,7 @@ INCLUDE_FILES=\
 
 OUTPUT_DIR=bin
 
-
-
-OBJECTS=\
-	$(OUTPUT_DIR)/eos.o
-
-FILES=\
-	eos.c
+OBJECTS = $(wildcard bin/*.o)
 
 all: clean create_dirs compile link
 
@@ -44,16 +38,15 @@ link:
 
 ifeq ($(ARCH),rl78)
 ifeq ($(MCU),r5f104le)
-compile: $(FILES)
+target: 
 	cd arch/$(ARCH)/$(MCU) && make all
 
 endif
-else
-compile: $(FILES)    
 
 endif
 
-
+compile: target
+	cd kernel && make all
 
 eos.c:
 	$(CC) $(COMPILER_FLAGS) -I$(INCLUDE_FILES) kernel/eos.c -o $(OUTPUT_DIR)/eos.o

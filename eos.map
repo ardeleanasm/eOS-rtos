@@ -4,16 +4,17 @@ Discarded input sections
  .text          0x00000000        0x0 bin/eos.o
  .data          0x00000000        0x0 bin/eos.o
  .bss           0x00000000        0x0 bin/eos.o
- .text.main     0x00000000        0x4 bin/eos.o
- .debug_frame   0x00000000       0x24 bin/eos.o
- .debug_info    0x00000000       0x42 bin/eos.o
- .debug_abbrev  0x00000000       0x39 bin/eos.o
- .debug_aranges
-                0x00000000       0x20 bin/eos.o
- .debug_ranges  0x00000000       0x10 bin/eos.o
- .debug_line    0x00000000       0x45 bin/eos.o
- .debug_str     0x00000000       0xec bin/eos.o
- .comment       0x00000000       0xa1 bin/eos.o
+ .text          0x00000000        0x0 bin/hwinit.o
+ .data          0x00000000        0x0 bin/hwinit.o
+ .bss           0x00000000        0x0 bin/hwinit.o
+ .text          0x00000000        0x0 bin/inthandler.o
+ .data          0x00000000        0x0 bin/inthandler.o
+ .bss           0x00000000        0x0 bin/inthandler.o
+ .data          0x00000000        0x0 bin/start.o
+ .bss           0x00000000        0x0 bin/start.o
+ .text          0x00000000        0x0 bin/vects.o
+ .data          0x00000000        0x0 bin/vects.o
+ .bss           0x00000000        0x0 bin/vects.o
 
 Memory Configuration
 
@@ -35,6 +36,10 @@ START GROUP
 LOAD d:/soft/renesas/gcc for renesas rl78 4.9.2.201801-gnurl78-elf/rl78-elf/rl78-elf/bin/../lib/gcc/rl78-elf/4.9.2.201801-GNURL78/g14\libgcc.a
 END GROUP
 LOAD bin/eos.o
+LOAD bin/hwinit.o
+LOAD bin/inthandler.o
+LOAD bin/start.o
+LOAD bin/vects.o
 LOAD d:/soft/renesas/gcc for renesas rl78 4.9.2.201801-gnurl78-elf/rl78-elf/rl78-elf/bin/../lib/gcc/rl78-elf/4.9.2.201801-GNURL78/g14\libgcc.a
 START GROUP
 LOAD d:/soft/renesas/gcc for renesas rl78 4.9.2.201801-gnurl78-elf/rl78-elf/rl78-elf/bin/../lib/gcc/rl78-elf/4.9.2.201801-GNURL78/../../../../rl78-elf/lib/g14\libc.a
@@ -42,20 +47,29 @@ LOAD d:/soft/renesas/gcc for renesas rl78 4.9.2.201801-gnurl78-elf/rl78-elf/rl78
 END GROUP
 LOAD d:/soft/renesas/gcc for renesas rl78 4.9.2.201801-gnurl78-elf/rl78-elf/rl78-elf/bin/../lib/gcc/rl78-elf/4.9.2.201801-GNURL78/g14\libgcc.a
 
-.vec
+.vec            0x00000000        0x4
  *(.vec)
+ .vec           0x00000000        0x4 bin/vects.o
+                0x00000000                _HardwareVectors
 
-.vects
+.vects          0x00000004       0x7c
  *(.vects)
+ .vects         0x00000004       0x7c bin/vects.o
+                0x00000004                _Vectors
 
-.option_bytes
+.option_bytes   0x000000c0        0x4
  *(.option_bytes)
+ .option_bytes  0x000000c0        0x4 bin/vects.o
+                0x000000c0                _Option_Bytes
 
-.security_id
+.security_id    0x000000c4        0xa
  *(.security_id)
+ .security_id   0x000000c4        0xa bin/vects.o
+                0x000000c4                _Security_Id
 
 .lowtext        0x000000d8        0x0
  *(.plt)
+ .plt           0x000000d8        0x0 bin/start.o
  *(.lowtext)
                 0x000000d8                . = ALIGN (0x2)
 
@@ -74,11 +88,109 @@ LOAD d:/soft/renesas/gcc for renesas rl78 4.9.2.201801-gnurl78-elf/rl78-elf/rl78
                 0x000000d8                . = ALIGN (0x2)
                 0x000000d8                _mdata = .
 
-.text           0x000000d8        0x0
+.text           0x000000d8      0x230
  *(.text)
+ .text          0x000000d8       0x62 bin/start.o
+                0x000000da                __rl78_fini
+                0x000000dc                _PowerON_Reset
  *(.text.*)
-                0x000000d8                etext = .
-                0x000000d8                . = ALIGN (0x2)
+ .text.main     0x0000013a        0x4 bin/eos.o
+                0x0000013a                _main
+ .text.HardwareSetup
+                0x0000013e        0x1 bin/hwinit.o
+                0x0000013e                _HardwareSetup
+ .text.INT_WDTI
+                0x0000013f        0xc bin/inthandler.o
+                0x0000013f                _INT_WDTI
+ .text.INT_LVI  0x0000014b        0xc bin/inthandler.o
+                0x0000014b                _INT_LVI
+ .text.INT_P0   0x00000157        0xc bin/inthandler.o
+                0x00000157                _INT_P0
+ .text.INT_P1   0x00000163        0xc bin/inthandler.o
+                0x00000163                _INT_P1
+ .text.INT_P2   0x0000016f        0xc bin/inthandler.o
+                0x0000016f                _INT_P2
+ .text.INT_P3   0x0000017b        0xc bin/inthandler.o
+                0x0000017b                _INT_P3
+ .text.INT_P4   0x00000187        0xc bin/inthandler.o
+                0x00000187                _INT_P4
+ .text.INT_P5   0x00000193        0xc bin/inthandler.o
+                0x00000193                _INT_P5
+ .text.INT_ST2  0x0000019f        0xc bin/inthandler.o
+                0x0000019f                _INT_ST2
+ .text.INT_SR2  0x000001ab        0xc bin/inthandler.o
+                0x000001ab                _INT_SR2
+ .text.INT_SRE2
+                0x000001b7        0xc bin/inthandler.o
+                0x000001b7                _INT_SRE2
+ .text.INT_ST0  0x000001c3        0xc bin/inthandler.o
+                0x000001c3                _INT_ST0
+ .text.INT_SR0  0x000001cf        0xc bin/inthandler.o
+                0x000001cf                _INT_SR0
+ .text.INT_TM01H
+                0x000001db        0xc bin/inthandler.o
+                0x000001db                _INT_TM01H
+ .text.INT_ST1  0x000001e7        0xc bin/inthandler.o
+                0x000001e7                _INT_ST1
+ .text.INT_SR1  0x000001f3        0xc bin/inthandler.o
+                0x000001f3                _INT_SR1
+ .text.INT_TM03H
+                0x000001ff        0xc bin/inthandler.o
+                0x000001ff                _INT_TM03H
+ .text.INT_IICA0
+                0x0000020b        0xc bin/inthandler.o
+                0x0000020b                _INT_IICA0
+ .text.INT_TM00
+                0x00000217        0xc bin/inthandler.o
+                0x00000217                _INT_TM00
+ .text.INT_TM01
+                0x00000223        0xc bin/inthandler.o
+                0x00000223                _INT_TM01
+ .text.INT_TM02
+                0x0000022f        0xc bin/inthandler.o
+                0x0000022f                _INT_TM02
+ .text.INT_TM03
+                0x0000023b        0xc bin/inthandler.o
+                0x0000023b                _INT_TM03
+ .text.INT_AD   0x00000247        0xc bin/inthandler.o
+                0x00000247                _INT_AD
+ .text.INT_RTC  0x00000253        0xc bin/inthandler.o
+                0x00000253                _INT_RTC
+ .text.INT_IT   0x0000025f        0xc bin/inthandler.o
+                0x0000025f                _INT_IT
+ .text.INT_KR   0x0000026b        0xc bin/inthandler.o
+                0x0000026b                _INT_KR
+ .text.INT_TRJ0
+                0x00000277        0xc bin/inthandler.o
+                0x00000277                _INT_TRJ0
+ .text.INT_P6   0x00000283        0xc bin/inthandler.o
+                0x00000283                _INT_P6
+ .text.INT_P7   0x0000028f        0xc bin/inthandler.o
+                0x0000028f                _INT_P7
+ .text.INT_P8   0x0000029b        0xc bin/inthandler.o
+                0x0000029b                _INT_P8
+ .text.INT_P9   0x000002a7        0xc bin/inthandler.o
+                0x000002a7                _INT_P9
+ .text.INT_P10  0x000002b3        0xc bin/inthandler.o
+                0x000002b3                _INT_P10
+ .text.INT_P11  0x000002bf        0xc bin/inthandler.o
+                0x000002bf                _INT_P11
+ .text.INT_TRD0
+                0x000002cb        0xc bin/inthandler.o
+                0x000002cb                _INT_TRD0
+ .text.INT_TRD1
+                0x000002d7        0xc bin/inthandler.o
+                0x000002d7                _INT_TRD1
+ .text.INT_TRG  0x000002e3        0xc bin/inthandler.o
+                0x000002e3                _INT_TRG
+ .text.INT_FL   0x000002ef        0xc bin/inthandler.o
+                0x000002ef                _INT_FL
+ .text.INT_BRK_I
+                0x000002fb        0xc bin/inthandler.o
+                0x000002fb                _INT_BRK_I
+                0x00000307                etext = .
+                0x00000308                . = ALIGN (0x2)
+ *fill*         0x00000307        0x1 
                 0x00000000                PROVIDE (__rl78_abs__, 0x0)
 
 .init
@@ -97,11 +209,11 @@ LOAD d:/soft/renesas/gcc for renesas rl78 4.9.2.201801-gnurl78-elf/rl78-elf/rl78
  *(.rodata.*)
                 0x00002000                _erodata = .
 
-.frodata        0x000000d8        0x0
-                0x000000d8                . = ALIGN (0x2)
+.frodata        0x00000308        0x0
+                0x00000308                . = ALIGN (0x2)
  *(.frodata)
  *(.frodata.*)
-                0x000000d8                _efrodata = .
+                0x00000308                _efrodata = .
 
 .eh_frame_hdr
  *(.eh_frame_hdr)
@@ -109,9 +221,9 @@ LOAD d:/soft/renesas/gcc for renesas rl78 4.9.2.201801-gnurl78-elf/rl78-elf/rl78
 .eh_frame
  *(.eh_frame)
 
-.jcr            0x000000d8        0x0
+.jcr            0x00000308        0x0
  *(.jcr)
-                0x000000d8                . = ALIGN (0x2)
+                0x00000308                . = ALIGN (0x2)
 
 .data           0x000fe900        0x0 load address 0x000000d8
                 0x000fe900                . = ALIGN (0x2)
@@ -138,3 +250,62 @@ LOAD d:/soft/renesas/gcc for renesas rl78 4.9.2.201801-gnurl78-elf/rl78-elf/rl78
                 0x000ffedc                _stack = .
                 0x00000001                ASSERT ((_stack > (_end + stack_size)), Error: Too much data - no room left for the stack)
 OUTPUT(bin/eos elf32-rl78)
+
+.debug_frame    0x00000000      0x814
+ .debug_frame   0x00000000       0x24 bin/eos.o
+ .debug_frame   0x00000024       0x24 bin/hwinit.o
+ .debug_frame   0x00000048      0x7cc bin/inthandler.o
+
+.debug_info     0x00000000      0x442
+ .debug_info    0x00000000       0x42 bin/eos.o
+ .debug_info    0x00000042       0x37 bin/hwinit.o
+ .debug_info    0x00000079      0x2ac bin/inthandler.o
+ .debug_info    0x00000325       0x5c bin/start.o
+ .debug_info    0x00000381       0xc1 bin/vects.o
+
+.debug_abbrev   0x00000000       0xf8
+ .debug_abbrev  0x00000000       0x39 bin/eos.o
+ .debug_abbrev  0x00000039       0x2c bin/hwinit.o
+ .debug_abbrev  0x00000065       0x2c bin/inthandler.o
+ .debug_abbrev  0x00000091       0x14 bin/start.o
+ .debug_abbrev  0x000000a5       0x53 bin/vects.o
+
+.debug_aranges  0x00000000      0x1c0
+ .debug_aranges
+                0x00000000       0x20 bin/eos.o
+ .debug_aranges
+                0x00000020       0x20 bin/hwinit.o
+ .debug_aranges
+                0x00000040      0x148 bin/inthandler.o
+ .debug_aranges
+                0x00000188       0x20 bin/start.o
+ .debug_aranges
+                0x000001a8       0x18 bin/vects.o
+
+.debug_ranges   0x00000000      0x158
+ .debug_ranges  0x00000000       0x10 bin/eos.o
+ .debug_ranges  0x00000010       0x10 bin/hwinit.o
+ .debug_ranges  0x00000020      0x138 bin/inthandler.o
+
+.debug_line     0x00000000      0x585
+ .debug_line    0x00000000       0x3e bin/eos.o
+ .debug_line    0x0000003e       0x3f bin/hwinit.o
+ .debug_line    0x0000007d      0x38e bin/inthandler.o
+ .debug_line    0x0000040b      0x152 bin/start.o
+ .debug_line    0x0000055d       0x28 bin/vects.o
+
+.debug_str      0x00000000      0x2b6
+ .debug_str     0x00000000       0xec bin/eos.o
+ .debug_str     0x000000ec       0x42 bin/hwinit.o
+                                0x104 (size before relaxing)
+ .debug_str     0x0000012e      0x140 bin/inthandler.o
+                                0x22d (size before relaxing)
+ .debug_str     0x0000026e       0x48 bin/vects.o
+                                0x13d (size before relaxing)
+
+.comment        0x00000000       0xa0
+ .comment       0x00000000       0xa0 bin/eos.o
+                                 0xa1 (size before relaxing)
+ .comment       0x00000000       0xa1 bin/hwinit.o
+ .comment       0x00000000       0xa1 bin/inthandler.o
+ .comment       0x00000000       0xa1 bin/vects.o
